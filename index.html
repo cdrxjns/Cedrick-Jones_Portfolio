@@ -2699,75 +2699,6 @@
 
   </div>
 
-  /* =========================================================
-   FUZZY TYPO NORMALIZATION & BOT REPLY LOGIC
-========================================================= */
-
-function normalizeText(text) {
-  let q = text.toLowerCase().trim();
-
-  // Fix common user typos and spelling mistakes
-  q = q.replace(/\b(skils|skilz|skil|skils|skilss)\b/g, "skills");
-  q = q.replace(/\b(projct|projext|porject|projets|projecs)\b/g, "projects");
-  q = q.replace(/\b(skool|universty|univercity|collegee|studys|studi)\b/g, "school");
-  q = q.replace(/\b(bday|birday|birthda|brithday|bithday)\b/g, "birthday");
-  q = q.replace(/\b(conttact|conctact|emial|emaill|contac)\b/g, "contact");
-  q = q.replace(/\b(awrds|achivment|achievemnts)\b/g, "awards");
-
-  return q;
-}
-
-function getBotReply(userText) {
-  const q = normalizeText(userText);
-  const age = calculateAge();
-
-  // AGE
-  if (q.includes("age") || q.includes("old") || q.includes("how old")) {
-    return `Cedrick is ${age} years old (born June 10, 2005).`;
-  }
-
-  // BIRTHDAY
-  if (q.includes("birthday") || q.includes("born")) {
-    return "Cedrick was born on June 10, 2005.";
-  }
-
-  // INTRO / WHO
-  if (q.includes("who") || q.includes("about") || q.includes("bio") || q.includes("introduce")) {
-    return `Cedrick Jones is a ${age}-year-old 4th Year BS Information Technology student at Philippine Christian University.`;
-  }
-
-  // EDUCATION / SCHOOL
-  if (q.includes("school") || q.includes("education") || q.includes("college") || q.includes("university") || q.includes("study") || q.includes("bsit")) {
-    return "Cedrick is currently a 4th Year BS Information Technology (BSIT) student at Philippine Christian University (PCU).";
-  }
-
-  // SKILLS
-  if (q.includes("skills") || q.includes("tech") || q.includes("stack") || q.includes("code") || q.includes("language")) {
-    return "Cedrick's skills include HTML, CSS, JavaScript, Java, C#, Data Analytics, SQL, MS Office, Graphic Design, Video Editing, and AWS.";
-  }
-
-  // PROJECTS
-  if (q.includes("projects") || q.includes("work") || q.includes("built") || q.includes("system")) {
-    return "Cedrick's projects include:\n1. Personal Portfolio\n2. Laboratory Results System (C#)\n3. PCU Enrollment Form\n4. Birth Month Calendar";
-  }
-
-  // AWARDS
-  if (q.includes("awards") || q.includes("dean") || q.includes("dole") || q.includes("experience")) {
-    return "Cedrick's achievements: Dean's List, 120-hour DOLE Internship, and SHS Research Group Leader.";
-  }
-
-  // CONTACT
-  if (q.includes("contact") || q.includes("email") || q.includes("reach") || q.includes("message")) {
-    return "You can reach Cedrick via email at jonescedrick1006@gmail.com.";
-  }
-
-  // GREETING
-  if (q.includes("hi") || q.includes("hello") || q.includes("hey")) {
-    return "Hello! Ask me anything about Cedrick's age, skills, projects, studies, or awards!";
-  }
-
-  return "I can help with questions about Cedrick! Try asking about his age, skills, projects, or education.";
-}
 
   <!-- =========================================================
        JAVASCRIPT
@@ -3063,71 +2994,76 @@ function getBotReply(userText) {
     }
 
 
-    function getBotReply(userText) {
-      const q = userText.toLowerCase().trim();
-      const age = calculateAge();
+  /* =========================================================
+   FUZZY TYPO NORMALIZATION & BOT REPLY LOGIC
+========================================================= */
 
-      // AGE
-      if (q.includes("age") || q.includes("old") || q.includes("how old")) {
-        return `Cedrick is ${age} years old (born June 10, 2005).`;
-      }
+function normalizeText(text) {
+  let q = text.toLowerCase().trim();
 
-      // BIRTHDAY / BIRTH DATE
-      if (q.includes("birthday") || q.includes("birth date") || q.includes("born")) {
-        return "Cedrick was born on June 10, 2005.";
-      }
+  // Fix common user typos and spelling mistakes
+  q = q.replace(/\b(skils|skilz|skil|skils|skilss)\b/g, "skills");
+  q = q.replace(/\b(projct|projext|porject|projets|projecs)\b/g, "projects");
+  q = q.replace(/\b(skool|universty|univercity|collegee|studys|studi)\b/g, "school");
+  q = q.replace(/\b(bday|birday|birthda|brithday|bithday)\b/g, "birthday");
+  q = q.replace(/\b(conttact|conctact|emial|emaill|contac)\b/g, "contact");
+  q = q.replace(/\b(awrds|achivment|achievemnts)\b/g, "awards");
 
-      // WHO / ABOUT / INTRO
-      if (q.includes("who") || q.includes("about") || q.includes("bio") || q.includes("introduce")) {
-        return `Cedrick Jones is a ${age}-year-old 4th Year BS Information Technology student at Philippine Christian University, interested in Web Development, UI/UX Design, Data Analytics, and Cloud Technologies.`;
-      }
+  return q;
+}
 
-      // EDUCATION / SCHOOL / COLLEGE / PROGRAM / DEGREE
-      if (q.includes("school") || q.includes("education") || q.includes("college") || q.includes("university") || q.includes("study") || q.includes("studies") || q.includes("degree") || q.includes("course") || q.includes("bsit")) {
-        return "Cedrick is currently a 4th Year BS Information Technology (BSIT) student at Philippine Christian University (PCU). He is also a STEM strand Senior High School graduate.";
-      }
+function getBotReply(userText) {
+  const q = normalizeText(userText);
+  const age = calculateAge();
 
-      // LOCATION / ADDRESS / LIVE
-      if (q.includes("location") || q.includes("address") || q.includes("live") || q.includes("where")) {
-        return "Cedrick is based in Pasay City, Philippines.";
-      }
+  // AGE
+  if (q.includes("age") || q.includes("old") || q.includes("how old")) {
+    return `Cedrick is ${age} years old (born June 10, 2005).`;
+  }
 
-      // SKILLS / PROGRAMMING / TECH STACK
-      if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("language") || q.includes("know") || q.includes("code") || q.includes("tool")) {
-        return "Cedrick's skills include:\n• Web & Coding: HTML, CSS, Basic JavaScript, Basic Java, Basic C#\n• Data & Cloud: Data Analytics, SQL, Databases, Cloud Computing, Machine Learning Basics, AWS\n• Technical & Creative: MS Office (Word, Excel, PowerPoint), Graphic Design, Photo & Video Editing\n• Languages: English & Filipino";
-      }
+  // BIRTHDAY
+  if (q.includes("birthday") || q.includes("born")) {
+    return "Cedrick was born on June 10, 2005.";
+  }
 
-      // PROJECTS / WORKS
-      if (q.includes("project") || q.includes("work") || q.includes("built") || q.includes("system") || q.includes("portfolio")) {
-        return "Cedrick's featured projects are:\n1. Personal Portfolio (HTML, CSS, JS)\n2. Laboratory Results System (C#, Windows Forms, DataGridView)\n3. PCU Enrollment Form (HTML, CSS)\n4. Birth Month Calendar (June 2005 interactive calendar)";
-      }
+  // INTRO / WHO
+  if (q.includes("who") || q.includes("about") || q.includes("bio") || q.includes("introduce")) {
+    return `Cedrick Jones is a ${age}-year-old 4th Year BS Information Technology student at Philippine Christian University.`;
+  }
 
-      // AWARDS / ACHIEVEMENTS / DEAN'S LIST / WORK EXPERIENCE / DOLE
-      if (q.includes("award") || q.includes("achievement") || q.includes("dean") || q.includes("dole") || q.includes("experience") || q.includes("leadership") || q.includes("capstone")) {
-        return "Cedrick's achievements & experience include:\n• Dean's List academic recognition\n• 120-hour DOLE Service Obligation (Pasay & Makati Field Offices)\n• Senior High School Capstone & Research Group Leader";
-      }
+  // EDUCATION / SCHOOL
+  if (q.includes("school") || q.includes("education") || q.includes("college") || q.includes("university") || q.includes("study") || q.includes("bsit")) {
+    return "Cedrick is currently a 4th Year BS Information Technology (BSIT) student at Philippine Christian University (PCU).";
+  }
 
-      // LIFE VERSE / MOTTO / QUOTE
-      if (q.includes("verse") || q.includes("motto") || q.includes("quote") || q.includes("bible")) {
-        return "Cedrick's Life Verse is Luke 1:37 — 'For with God nothing shall be impossible.'";
-      }
+  // SKILLS
+  if (q.includes("skills") || q.includes("tech") || q.includes("stack") || q.includes("code") || q.includes("language")) {
+    return "Cedrick's skills include HTML, CSS, JavaScript, Java, C#, Data Analytics, SQL, MS Office, Graphic Design, Video Editing, and AWS.";
+  }
 
-      // CONTACT / EMAIL / REACH
-      if (q.includes("contact") || q.includes("email") || q.includes("reach") || q.includes("hire") || q.includes("message")) {
-        return "You can reach Cedrick via email at jonescedrick1006@gmail.com or through the contact form on this site.";
-      }
+  // PROJECTS
+  if (q.includes("projects") || q.includes("work") || q.includes("built") || q.includes("system")) {
+    return "Cedrick's projects include:\n1. Personal Portfolio\n2. Laboratory Results System (C#)\n3. PCU Enrollment Form\n4. Birth Month Calendar";
+  }
 
-      // HI / HELLO GREETING
-      if (q.includes("hi") || q.includes("hello") || q.includes("hey") || q.includes("greetings")) {
-        return "Hello! I am Cedrick's portfolio assistant. You can ask me about his age, studies, skills, projects, awards, or contact details!";
-      }
+  // AWARDS
+  if (q.includes("awards") || q.includes("dean") || q.includes("dole") || q.includes("experience")) {
+    return "Cedrick's achievements: Dean's List, 120-hour DOLE Internship, and SHS Research Group Leader.";
+  }
 
-      // DEFAULT FALLBACK
-      return "I can help with questions about Cedrick! Try asking: 'How old is he?', 'What are his skills?', 'Where does he study?', 'What projects has he built?', or 'How can I contact him?'";
-    }
+  // CONTACT
+  if (q.includes("contact") || q.includes("email") || q.includes("reach") || q.includes("message")) {
+    return "You can reach Cedrick via email at jonescedrick1006@gmail.com.";
+  }
 
+  // GREETING
+  if (q.includes("hi") || q.includes("hello") || q.includes("hey")) {
+    return "Hello! Ask me anything about Cedrick's age, skills, projects, studies, or awards!";
+  }
 
-    async function sendMessage() {
+  return "I can help with questions about Cedrick! Try asking about his age, skills, projects, or education.";
+}
+
 
       const text =
         chatInput.value.trim();
