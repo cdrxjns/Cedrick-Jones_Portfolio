@@ -1646,20 +1646,16 @@
 
         <div class="socials">
 
-          <!-- Replace # with your actual GitHub -->
-          <a href="https://github.com/cdrxjns" title="GitHub">
-            <i class="fa-brands fa-github"></i>
-          </a>
+           <a href="https://www.facebook.com/itsme.jonescedrickadolfo"
+             title="Facebook">
+
+            <i class="fa-brands fa-facebook-f"></i>
 
           <!-- Replace # with your actual LinkedIn -->
           <a href="https://www.linkedin.com/in/cedrick-jones-15873041b/" title="LinkedIn">
             <i class="fa-brands fa-linkedin-in"></i>
           </a>
-
-          <a
-            href="jonescedrick1006@gmail.com"
-            title="Email"
-          >
+             
             <i class="fa-solid fa-envelope"></i>
           </a>
 
@@ -2706,6 +2702,75 @@
 
   </div>
 
+  /* =========================================================
+   FUZZY TYPO NORMALIZATION & BOT REPLY LOGIC
+========================================================= */
+
+function normalizeText(text) {
+  let q = text.toLowerCase().trim();
+
+  // Fix common user typos and spelling mistakes
+  q = q.replace(/\b(skils|skilz|skil|skils|skilss)\b/g, "skills");
+  q = q.replace(/\b(projct|projext|porject|projets|projecs)\b/g, "projects");
+  q = q.replace(/\b(skool|universty|univercity|collegee|studys|studi)\b/g, "school");
+  q = q.replace(/\b(bday|birday|birthda|brithday|bithday)\b/g, "birthday");
+  q = q.replace(/\b(conttact|conctact|emial|emaill|contac)\b/g, "contact");
+  q = q.replace(/\b(awrds|achivment|achievemnts)\b/g, "awards");
+
+  return q;
+}
+
+function getBotReply(userText) {
+  const q = normalizeText(userText);
+  const age = calculateAge();
+
+  // AGE
+  if (q.includes("age") || q.includes("old") || q.includes("how old")) {
+    return `Cedrick is ${age} years old (born June 10, 2005).`;
+  }
+
+  // BIRTHDAY
+  if (q.includes("birthday") || q.includes("born")) {
+    return "Cedrick was born on June 10, 2005.";
+  }
+
+  // INTRO / WHO
+  if (q.includes("who") || q.includes("about") || q.includes("bio") || q.includes("introduce")) {
+    return `Cedrick Jones is a ${age}-year-old 4th Year BS Information Technology student at Philippine Christian University.`;
+  }
+
+  // EDUCATION / SCHOOL
+  if (q.includes("school") || q.includes("education") || q.includes("college") || q.includes("university") || q.includes("study") || q.includes("bsit")) {
+    return "Cedrick is currently a 4th Year BS Information Technology (BSIT) student at Philippine Christian University (PCU).";
+  }
+
+  // SKILLS
+  if (q.includes("skills") || q.includes("tech") || q.includes("stack") || q.includes("code") || q.includes("language")) {
+    return "Cedrick's skills include HTML, CSS, JavaScript, Java, C#, Data Analytics, SQL, MS Office, Graphic Design, Video Editing, and AWS.";
+  }
+
+  // PROJECTS
+  if (q.includes("projects") || q.includes("work") || q.includes("built") || q.includes("system")) {
+    return "Cedrick's projects include:\n1. Personal Portfolio\n2. Laboratory Results System (C#)\n3. PCU Enrollment Form\n4. Birth Month Calendar";
+  }
+
+  // AWARDS
+  if (q.includes("awards") || q.includes("dean") || q.includes("dole") || q.includes("experience")) {
+    return "Cedrick's achievements: Dean's List, 120-hour DOLE Internship, and SHS Research Group Leader.";
+  }
+
+  // CONTACT
+  if (q.includes("contact") || q.includes("email") || q.includes("reach") || q.includes("message")) {
+    return "You can reach Cedrick via email at jonescedrick1006@gmail.com.";
+  }
+
+  // GREETING
+  if (q.includes("hi") || q.includes("hello") || q.includes("hey")) {
+    return "Hello! Ask me anything about Cedrick's age, skills, projects, studies, or awards!";
+  }
+
+  return "I can help with questions about Cedrick! Try asking about his age, skills, projects, or education.";
+}
 
   <!-- =========================================================
        JAVASCRIPT
