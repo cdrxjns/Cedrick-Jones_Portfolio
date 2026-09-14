@@ -1,0 +1,10 @@
+{
+  "name": "cedrick-portfolio",
+  "version": "1.0.0",
+  "description": "Cedrick Jones Portfolio with OpenAI Chatbot",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve ."
+  },
+  "dependencies": {}
+}
