@@ -292,6 +292,129 @@
     }
 
     /* =========================================================
+       FLOATING CHATBOT WIDGET STYLES
+    ========================================================= */
+
+    .chatbot-button {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 58px;
+      height: 58px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #168cff, #0756d9);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      cursor: pointer;
+      z-index: 1500;
+      box-shadow: 0 10px 35px rgba(22, 140, 255, 0.4);
+      transition: 0.3s ease;
+    }
+
+    .chatbot-button:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    .chatbox {
+      position: fixed;
+      right: 25px;
+      bottom: 95px;
+      width: 380px;
+      max-width: calc(100vw - 40px);
+      height: 520px;
+      background: rgba(5, 13, 23, 0.96);
+      border: 1px solid rgba(99, 185, 255, 0.16);
+      border-radius: 20px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 1499;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+    }
+
+    .chatbox.active {
+      display: flex;
+      animation: chatOpen 0.25s ease;
+    }
+
+    @keyframes chatOpen {
+      from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .chat-header {
+      padding: 15px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(2, 6, 11, 0.5);
+    }
+
+    .chat-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-avatar {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(22, 140, 255, 0.12);
+      color: var(--blue-light);
+    }
+
+    .chat-title strong {
+      font-size: 13px;
+    }
+
+    .chat-title small {
+      display: block;
+      color: #5cd580;
+      font-size: 9px;
+    }
+
+    .chat-close {
+      background: transparent;
+      border: none;
+      color: #899bad;
+      cursor: pointer;
+      font-size: 16px;
+      transition: var(--transition);
+    }
+
+    .chat-close:hover {
+      color: white;
+    }
+
+    .chat-iframe-container {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+
+    .chat-iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* =========================================================
        HERO
     ========================================================= */
 
@@ -345,7 +468,6 @@
       0%, 100% {
         box-shadow: 0 0 8px rgba(40, 215, 111, 0.5);
       }
-
       50% {
         box-shadow: 0 0 20px rgba(40, 215, 111, 1);
       }
@@ -510,7 +632,6 @@
       0%, 100% {
         transform: translateY(0);
       }
-
       50% {
         transform: translateY(-10px);
       }
@@ -532,7 +653,6 @@
       from {
         transform: rotate(-25deg);
       }
-
       to {
         transform: rotate(335deg);
       }
@@ -633,7 +753,6 @@
       0%, 100% {
         transform: translateY(0);
       }
-
       50% {
         transform: translateY(-8px);
       }
@@ -1233,6 +1352,7 @@
       .nav-links a {
         display: block;
         text-align: center;
+        width: 100%;
       }
 
       .menu-btn {
@@ -1361,6 +1481,18 @@
       .calendar-days div {
         min-height: 40px;
       }
+
+      .chatbox {
+        right: 15px;
+        bottom: 85px;
+        width: calc(100vw - 30px);
+        height: 450px;
+      }
+
+      .chatbot-button {
+        right: 15px;
+        bottom: 15px;
+      }
     }
 
   </style>
@@ -1426,6 +1558,54 @@
     </nav>
 
   </header>
+
+
+  <!-- =========================================================
+       FLOATING CHATBOT WIDGET WITH IFRAME
+  ========================================================== -->
+
+  <button
+    class="chatbot-button"
+    id="chatbotButton"
+    title="Ask about Cedrick"
+  >
+    <i class="fa-solid fa-robot"></i>
+  </button>
+
+  <div class="chatbox" id="chatbox">
+
+    <div class="chat-header">
+
+      <div class="chat-title">
+
+        <div class="chat-avatar">
+          <i class="fa-solid fa-robot"></i>
+        </div>
+
+        <div>
+          <strong>Cedrick's AI Assistant</strong>
+          <small>● Online</small>
+        </div>
+
+      </div>
+
+      <button class="chat-close" id="chatClose">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+    </div>
+
+    <div class="chat-iframe-container">
+      <iframe
+        src="https://www.chatbase.co/chatbot-iframe/E-5EBxGA5dNoa40xbncWZ"
+        width="100%"
+        style="height: 100%; min-height: 100%;"
+        frameborder="0"
+        allow="microphone"
+      ></iframe>
+    </div>
+
+  </div>
 
 
   <!-- =========================================================
@@ -2458,6 +2638,23 @@
   <script>
 
     /* =========================================================
+       FLOATING CHATBOT WIDGET TOGGLE
+    ========================================================= */
+
+    const chatbotButton = document.getElementById("chatbotButton");
+    const chatbox = document.getElementById("chatbox");
+    const chatClose = document.getElementById("chatClose");
+
+    chatbotButton.addEventListener("click", () => {
+      chatbox.classList.toggle("active");
+    });
+
+    chatClose.addEventListener("click", () => {
+      chatbox.classList.remove("active");
+    });
+
+
+    /* =========================================================
        SCROLL PROGRESS
     ========================================================= */
 
@@ -2671,23 +2868,6 @@
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
-  </script>
-
-  <!-- =========================================================
-       CHATBASE FLOATING BUTTON WIDGET
-  ========================================================== -->
-
-  <script>
-    window.embeddedChatbotConfig = {
-      chatbotId: "E-5EBxGA5dNoa40xbncWZ",
-      domain: "www.chatbase.co"
-    }
-  </script>
-  <script
-    src="https://www.chatbase.co/embed.min.js"
-    chatbotId="E-5EBxGA5dNoa40xbncWZ"
-    domain="www.chatbase.co"
-    defer>
   </script>
 
 </body>
